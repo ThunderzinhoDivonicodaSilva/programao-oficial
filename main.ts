@@ -7,7 +7,7 @@ function criaPerguntas () {
     "O que fazer quando sua planta está amarelada?",
     "O que é mais apropriado fazer quando uma folha/pétala cai no solo?",
     "O que é uma estaca?",
-    "Verdadeiro ou falso: toda planta precisa ser regada todo dia para ficar bem hidratada",
+    "Verdade ou mentira: toda planta precisa ser regada todo dia para ficar bem hidratada",
     "Por que o solo humoso é muito utilizado na agricultura?",
     "O que é substrato?",
     "Qual dos tipos abaixo é considerado um tipo de reprodução assexuada para plantas?",
@@ -17,10 +17,10 @@ function criaPerguntas () {
     AlternativasP1 = ["Cacto", "Pinheiros", Resposta1]
     Resposta2 = "Substrato"
     AlternativasP2 = [Resposta2, "Argiloso", "Arenoso"]
-    Resposta3 = 0
-    AlternativasP3 = ["hortelã", "peixinho", Resposta3]
+    Resposta3 = "lírio do vale"
+    AlternativasP3 = ["Hortelã", "Peixinho", Resposta3]
     Resposta4 = "Bastante"
-    AlternativasP4 = ["médio", Resposta4, "pouco"]
+    AlternativasP4 = ["Medio", Resposta4, "Pouco"]
     Resposta5 = "Podar"
     AlternativasP5 = [Resposta5, "Fornecer bastante sol", "Fornecer bastante água"]
     Resposta6 = "Deixar ela no solo"
@@ -30,13 +30,13 @@ function criaPerguntas () {
     Resposta8 = "Falso"
     AlternativasP8 = ["Verdadeiro", Resposta8, "Depende"]
     Reposta9 = "Devido à sua alta fertilidade"
-    AlternativasP9 = ["Devido à sua alta humidade", "Devido à presença de agentes decompositores", Reposta9]
+    AlternativasP9 = ["Devido à sua alta umidade", "Devido à presença de agentes decompositores", Reposta9]
     Resposta10 = "Junção de Terra e areia "
-    AlternativasP10 = ["É a área que fica sob a terra", "É o mal trato dos elementos naturais", Resposta10]
+    AlternativasP10 = ["A área que fica sob a terra", "É o mal trato dos elementos naturais", Resposta10]
     Resposta11 = "Brotamento"
     AlternativasP11 = ["Reprodução por pólen", "Divisão binária", Resposta11]
     Resposta12 = "Reprodução de plantas"
-    AlternativasP12 = [Resposta12, "Ajudar o crescimento da planta", "Disfarçar o aroma para predadores"]
+    AlternativasP12 = [Resposta12, "Ajudar a planta a crescer", "Disfarçar o aroma para predadores"]
     AlternativasA = [
     AlternativasP1,
     AlternativasP2,
@@ -99,19 +99,38 @@ let Resposta5 = ""
 let AlternativasP4: string[] = []
 let Resposta4 = ""
 let AlternativasP3: string[] = []
-let Resposta3 = 0
+let Resposta3 = ""
 let AlternativasP2: string[] = []
 let Resposta2 = ""
 let AlternativasP1: string[] = []
 let Resposta1 = ""
 let Perguntas: string[] = []
 scene.setBackgroundImage(assets.image`Fundo`)
+let velocidade_fala = 250
 info.setLife(3)
-let mySprite = sprites.create(assets.image`myImage`, SpriteKind.Player)
-mySprite.setPosition(scene.screenWidth() / 2, 100)
-story.spriteSayText(mySprite, "Olá")
-story.spriteSayText(mySprite, "Bem vindo ao Jovens Verdes!")
-story.spriteSayText(mySprite, "Você irá responder algumas perguntas sobre jardinagem! Preparado?")
+let bonequinho = sprites.create(assets.image`myImage`, SpriteKind.Player)
+scaling.scaleByPixels(bonequinho, 35, ScaleDirection.Uniformly, ScaleAnchor.Middle)
+story.spriteMoveToLocation(bonequinho, 80, 75, 50)
+bonequinho.setPosition(80, 75)
+let planta = sprites.create(assets.image`myImage0`, SpriteKind.Player)
+planta.setPosition(35, 98)
+scaling.scaleByPixels(planta, 35, ScaleDirection.Uniformly, ScaleAnchor.Middle)
+animation.runImageAnimation(
+bonequinho,
+assets.animation`myAnim2`,
+100,
+false
+)
+story.spriteSayText(bonequinho, "Olá")
+animation.runImageAnimation(
+bonequinho,
+assets.animation`boneco_falando`,
+velocidade_fala,
+true
+)
+story.spriteSayText(bonequinho, "Bem-vindo ao quiz do Projeto Florescer!")
+story.spriteSayText(bonequinho, "Você irá responder algumas perguntas sobre jardinagem! Preparado?")
+animation.stopAnimation(animation.AnimationTypes.All, bonequinho)
 criaPerguntas()
 criaListas()
 forever(function () {
@@ -123,24 +142,163 @@ forever(function () {
             Alternativas.removeAt(numeroTema)
             Respostas.removeAt(numeroTema)
         } else {
-            story.spriteSayText(mySprite, "Sua pergunta é:")
+            animation.runImageAnimation(
+            bonequinho,
+            assets.animation`boneco_falando`,
+            velocidade_fala,
+            true
+            )
+            story.spriteSayText(bonequinho, "Sua pergunta é:")
             Pergunta = TEMA._pickRandom()
             NumeroPergunta = TEMA.indexOf(Pergunta)
-            story.spriteSayText(mySprite, Pergunta)
+            story.spriteSayText(bonequinho, Pergunta)
+            animation.stopAnimation(animation.AnimationTypes.All, bonequinho)
             story.showPlayerChoices(Alternativas[numeroTema][NumeroPergunta][0], Alternativas[numeroTema][NumeroPergunta][1], Alternativas[numeroTema][NumeroPergunta][2])
             if (story.checkLastAnswer(Respostas[numeroTema][NumeroPergunta])) {
                 music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.InBackground)
-                story.spriteSayText(mySprite, "Boa resposta!")
+                story.spriteSayText(bonequinho, "Boa resposta!")
                 info.changeScoreBy(10)
-                if (info.score() >= 60) {
-                    story.spriteSayText(mySprite, "Parabéns! Você cultivou o seu conhecimento!")
+                if (info.score() == 10) {
+                    animation.runImageAnimation(
+                    planta,
+                    [img`
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        `],
+                    500,
+                    false
+                    )
+                } else if (info.score() == 20) {
+                    animation.runImageAnimation(
+                    planta,
+                    [img`
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        `],
+                    500,
+                    false
+                    )
+                } else if (info.score() == 30) {
+                    animation.runImageAnimation(
+                    planta,
+                    [img`
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        `],
+                    500,
+                    false
+                    )
+                } else if (info.score() == 40) {
+                    animation.runImageAnimation(
+                    planta,
+                    [img`
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        `],
+                    500,
+                    false
+                    )
+                } else if (info.score() == 50) {
+                    animation.runImageAnimation(
+                    planta,
+                    [img`
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        . . . . . . . . . . . . . . . . 
+                        `],
+                    500,
+                    false
+                    )
+                } else {
+                    animation.runImageAnimation(
+                    bonequinho,
+                    assets.animation`myAnim`,
+                    150,
+                    false
+                    )
+                    story.spriteSayText(bonequinho, "Parabéns! Você cultivou o seu conhecimento!")
                     game.gameOver(true)
                 }
             } else {
                 music.play(music.melodyPlayable(music.wawawawaa), music.PlaybackMode.InBackground)
-                story.spriteSayText(mySprite, "Eita! Resposta errada!")
+                story.spriteSayText(bonequinho, "Eita! Resposta errada!")
                 if (info.life() == 1) {
-                    story.spriteSayText(mySprite, "Você perdeu! Que pena! Sua planta morreu!")
+                    animation.runImageAnimation(
+                    bonequinho,
+                    assets.animation`myAnim3`,
+                    200,
+                    false
+                    )
+                    story.spriteSayText(bonequinho, "Você perdeu! Que pena! Sua planta morreu!")
                 }
                 info.changeLifeBy(-1)
             }
