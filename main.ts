@@ -17,7 +17,7 @@ function criaPerguntas () {
     AlternativasP1 = ["Cacto", "Pinheiros", Resposta1]
     Resposta2 = "Substrato"
     AlternativasP2 = [Resposta2, "Argiloso", "Arenoso"]
-    Resposta3 = "lírio do vale"
+    Resposta3 = "Lírio do vale"
     AlternativasP3 = ["Hortelã", "Peixinho", Resposta3]
     Resposta4 = "Bastante"
     AlternativasP4 = ["Medio", Resposta4, "Pouco"]
@@ -25,8 +25,8 @@ function criaPerguntas () {
     AlternativasP5 = [Resposta5, "Fornecer bastante sol", "Fornecer bastante água"]
     Resposta6 = "Deixar ela no solo"
     AlternativasP6 = ["Retirar do solo", "Reconectá-la no caule de origem", Resposta6]
-    Resposta7 = "Pedaço de graveto com vida"
-    AlternativasP7 = ["Pedaço de graveto sem vida", Resposta7, "Pedaço de raiz sem vida"]
+    Resposta7 = "Pedaço de graveto vivo"
+    AlternativasP7 = ["Pedaço de graveto morto", Resposta7, "Pedaço de raiz morta"]
     Resposta8 = "Falso"
     AlternativasP8 = ["Verdadeiro", Resposta8, "Depende"]
     Reposta9 = "Devido à sua alta fertilidade"
@@ -156,8 +156,8 @@ forever(function () {
             story.showPlayerChoices(Alternativas[numeroTema][NumeroPergunta][0], Alternativas[numeroTema][NumeroPergunta][1], Alternativas[numeroTema][NumeroPergunta][2])
             if (story.checkLastAnswer(Respostas[numeroTema][NumeroPergunta])) {
                 music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.InBackground)
-                story.spriteSayText(bonequinho, "Boa resposta!")
-                info.changeScoreBy(10)
+                story.spriteSayText(bonequinho, "Arrasou")
+                info.changeScoreBy(30)
                 if (info.score() == 10) {
                     animation.runImageAnimation(
                     planta,
@@ -173,7 +173,13 @@ forever(function () {
                     false
                     )
                 } else if (info.score() == 30) {
-                	
+                    planta.setPosition(31, 81)
+                    animation.runImageAnimation(
+                    planta,
+                    assets.animation`2_to_3`,
+                    150,
+                    false
+                    )
                 } else if (info.score() == 40) {
                     animation.runImageAnimation(
                     planta,
