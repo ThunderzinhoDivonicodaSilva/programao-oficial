@@ -110,11 +110,11 @@ let velocidade_fala = 250
 info.setLife(3)
 let bonequinho = sprites.create(assets.image`myImage`, SpriteKind.Player)
 scaling.scaleByPixels(bonequinho, 35, ScaleDirection.Uniformly, ScaleAnchor.Middle)
-story.spriteMoveToLocation(bonequinho, 80, 75, 50)
-bonequinho.setPosition(80, 75)
+story.spriteMoveToLocation(bonequinho, 90, 75, 50)
+bonequinho.setPosition(90, 75)
 let planta = sprites.create(assets.image`myImage0`, SpriteKind.Player)
 planta.setPosition(35, 98)
-scaling.scaleByPixels(planta, 35, ScaleDirection.Uniformly, ScaleAnchor.Middle)
+scaling.scaleByPixels(planta, 15, ScaleDirection.Uniformly, ScaleAnchor.Middle)
 animation.runImageAnimation(
 bonequinho,
 assets.animation`myAnim2`,
@@ -128,8 +128,6 @@ assets.animation`boneco_falando`,
 velocidade_fala,
 true
 )
-story.spriteSayText(bonequinho, "Bem-vindo ao quiz do Projeto Florescer!")
-story.spriteSayText(bonequinho, "Você irá responder algumas perguntas sobre jardinagem! Preparado?")
 animation.stopAnimation(animation.AnimationTypes.All, bonequinho)
 criaPerguntas()
 criaListas()
@@ -157,7 +155,7 @@ forever(function () {
             if (story.checkLastAnswer(Respostas[numeroTema][NumeroPergunta])) {
                 music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.InBackground)
                 story.spriteSayText(bonequinho, "Arrasou")
-                info.changeScoreBy(30)
+                info.changeScoreBy(10)
                 if (info.score() == 10) {
                     animation.runImageAnimation(
                     planta,
@@ -173,7 +171,7 @@ forever(function () {
                     false
                     )
                 } else if (info.score() == 30) {
-                    planta.setPosition(31, 81)
+                    planta.setPosition(33, 88)
                     animation.runImageAnimation(
                     planta,
                     assets.animation`2_to_3`,
@@ -181,51 +179,27 @@ forever(function () {
                     false
                     )
                 } else if (info.score() == 40) {
+                    planta.setPosition(33, 80)
                     animation.runImageAnimation(
                     planta,
-                    [img`
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        `],
-                    500,
+                    assets.animation`myAnim4`,
+                    150,
                     false
                     )
                 } else if (info.score() == 50) {
+                    planta.setPosition(40, 48)
                     animation.runImageAnimation(
                     planta,
-                    [img`
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        . . . . . . . . . . . . . . . . 
-                        `],
-                    500,
+                    assets.animation`myAnim6`,
+                    150,
+                    false
+                    )
+                } else if (info.score() == 60) {
+                    planta.setPosition(33, 55)
+                    animation.runImageAnimation(
+                    planta,
+                    assets.animation`myAnim5`,
+                    150,
                     false
                     )
                 } else {
@@ -235,6 +209,14 @@ forever(function () {
                     150,
                     false
                     )
+                    planta.setPosition(45, 65)
+                    animation.runImageAnimation(
+                    planta,
+                    assets.animation`myAnim7`,
+                    150,
+                    false
+                    )
+                    pause(5000)
                     story.spriteSayText(bonequinho, "Parabéns! Você cultivou o seu conhecimento!")
                     game.gameOver(true)
                 }
